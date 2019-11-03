@@ -7,8 +7,7 @@ lon = 205;
 lat = 70;
 W = cos(lat'*pi/180);
 
-% trend = "deseasonal";
-trend = "interannual";
+trend = "deseasonal";
 
 % coord index for 2.5*2.5 resolution
 lon_k = ncread([result_path,'Feedback_kernel_cld.nc'],'longitude');
@@ -33,7 +32,6 @@ if trend == "deseasonal"
     x = squeeze(x(idx_lon_nn, idx_lat_nn, 12*28+month:12:12*37+month));
 end
 if trend == "interannual"
-    x = squeeze(x(idx_lon_nn, idx_lat_nn, 12*28+month:12:12*37+month));
     x = x.';
     X = 1:num;
     p = polyfit(X',x',1);
@@ -81,10 +79,10 @@ if trend == "deseasonal"
     mean = xline(clim_mean);
 end
 hold off
-ylabel('dRa (W/m^2)','FontSize',24);xlabel('fal','FontSize',24);title(['2007-2016, Sept, SW F^-_{sfc,a}/FAL, '+trend],'FontSize',24)
+ylabel('dRa','FontSize',24);xlabel('fal (%)','FontSize',24);title(['2007-2016, Sept, SW F^-_{sfc,a}/FAL, ',trend],'FontSize',2)
 if trend == "deseasonal"
-    legend([k,nn,mean],{'Kernel','NN','Clim. mean'},'FontSize',20);
+    legend([k,nn,mean],{'Kernel','NN','Clim. mean'},'FontSize',24);
 end
 if trend == "interannual"
-    legend([k,nn],{'Kernel','NN'},'FontSize',20);
+    legend([k,nn],{'Kernel','NN'},'FontSize',24);
 end
