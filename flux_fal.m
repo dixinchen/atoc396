@@ -19,10 +19,11 @@ trend = "deseasonal";
 % var = "wv";
 var = "fal";
 
-month = 5;
-num = 10;
+month = 6;
+num = 120;
 
 lon = 75; lat = 75;
+% lon = 195; lat = 70;
 
 % coord index for 2.5*2.5 resolution
 lon_k = ncread([result_path,'Feedback_kernel_cld.nc'],'longitude');
@@ -112,7 +113,7 @@ if trend == "deseasonal"
     x = squeeze(x(idx_lon_nn, idx_lat_nn, 12*28+1:end));
 end
 if trend == "interannual"
-    x = squeeze(x(idx_lon_nn, idx_lat_nn, 12*28+month:12:12*37+month));
+    x = squeeze(x(idx_lon_nn, idx_lat_nn, 12*28+1:end));
     x = x.';
     X = 1:num;
     p = polyfit(X',x',1);
@@ -128,6 +129,7 @@ end
 if trend == "interannual"
     dr = squeeze(dr(2,1,idx_lon_k, idx_lat_k,:,:));
     dr = dr.';
+    dr = dr(:).';
     X = 1:num;
     p = polyfit(X',dr',1);
     dr_dt = dr'-p(1)*X'-p(2);
@@ -142,6 +144,7 @@ end
 if trend == "interannual"
     dr = squeeze(dr(2,1,idx_lon_nn, idx_lat_nn,:,:));
     dr = dr.';
+    dr = dr(:).';
     X = 1:num;
     p = polyfit(X',dr',1);
     dr_dt = dr'-p(1)*X'-p(2);
@@ -155,6 +158,6 @@ nn = plot(x,dr_nn,'.','MarkerSize',10);
 hold off
 set(gca,'FontSize',20)
 ylabel('dRa (W/m^2)','FontSize',24);xlabel('fal (%)','FontSize',24);
-title(strcat("10 yrs deseasonal dR_a / fal"),'FontSize',20);
+title(strcat("10 yrs deseasonal dR_a / fal at (75)"),'FontSize',20);
 legend([k,nn],{'Kernel','NN'},'FontSize',20);
-saveas(gcf,figure_path+trend+'-drx-dx-'+var+'-all-mths.png');
+% saveas(gcf,figure_path+'-drx-dx-'+var+'-all-mths.png');
