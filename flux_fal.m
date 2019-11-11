@@ -7,12 +7,6 @@ figure_path = '/Users/dchen/OneDrive - McGill University/myCourses/atoc_396/nov/
 
 m = ["Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sept" "Oct" "Nov" "Dec"];
 
-syms al fs ft s r a
-eqns = [fs==(1-al)*s*((1-r-a)/(1-al*r)), ft==s-s*r-s*al*(1-r-a)^2/(1-al*r)];
-S = solve(eqns,[r a]);
-ref = S.r;
-abs = S.a;
-
 trend = "deseasonal";
 % trend = "interannual";
 
