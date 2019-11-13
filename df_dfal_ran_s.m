@@ -12,7 +12,7 @@ trend = "deseasonal";
 
 var = "fal";
 
-month = 3;
+month = 5:7;
 num = 10;
 
 lon = 75; lat = 75;
@@ -32,10 +32,10 @@ idx_lat_nn = find(lat_nn==lat);
 
 % get albedo data
 data = ncread([gen_path,'data_1_m/GFAL_1_m38.nc'],'fal');
-x = zeros(4,38);
+x = zeros(month(2)-month(1)+1,38);
 for i=1:38
-    for j = 4:7
-        x(j-3,i)=squeeze(data(idx_lon_nn, idx_lat_nn, (i-1)*12+j));
+    for j = month
+        x(j-(month(1)-1),i)=squeeze(data(idx_lon_nn, idx_lat_nn, (i-1)*12+j));
     end
 end 
 x = x(:);
@@ -43,20 +43,20 @@ x = x(:);
 
 % get SSR data
 data = ncread([gen_path,'data_1_m/GSSR_1_m38.nc'],'ssr');
-ssr = zeros(4,38);
+ssr = zeros(month(2)-month(1)+1,38);
 for i=1:38
-    for j = 4:7
-        ssr(j-3,i)=squeeze(data(idx_lon_nn, idx_lat_nn, (i-1)*12+j))/(24*3600);
+    for j = month
+        ssr(j-(month(1)-1),i)=squeeze(data(idx_lon_nn, idx_lat_nn, (i-1)*12+j))/(24*3600);
     end
 end
 ssr = ssr(:);
 
 % get TSR data
 data = ncread([gen_path,'data_1_m/GTSR_1_m38.nc'],'tsr');
-tsr = zeros(4,38);
+tsr = zeros(month(2)-month(1)+1,38);
 for i=1:38
-    for j = 4:7
-        tsr(j-3,i)=squeeze(data(idx_lon_nn, idx_lat_nn, (i-1)*12+j))/(24*3600);
+    for j = month
+        tsr(j-(month(1)-1),i)=squeeze(data(idx_lon_nn, idx_lat_nn, (i-1)*12+j))/(24*3600);
     end
 end
 tsr = tsr(:);
@@ -68,20 +68,20 @@ t = plot(x, tsr, '.');
 s = plot(x, ssr, '.');
 hold off
 ylabel('net solar radiation (W/m^2)','FontSize',24);xlabel('fal (%)','FontSize',24);
-title('net SW flux over fal at (75, 75), Apr-Jul','FontSize',24);
+title(strcat("net SW flux over fal at (75, 75), ",m(month(1)),'-',m(month(2))),'FontSize',24);
 legend([t,s],{'TSR','SSR'},'FontSize',20)
 set(gca,'FontSize',20)
 set(gcf, 'Position', [10, 10, 650, 400]);
-saveas(gcf,strcat(figure_path, "amjj.png"));
+% saveas(gcf,strcat(figure_path, "amjj.png"));
 
 
 % get climatological TISR data
 data = ncread([gen_path,'data_1_m/insolation_clim_mean.nc'],'ALLSKY_TOA_SW_DWN');
 data = squeeze(data.*(3600000/(24*3600)));
-tisr = zeros(4,38);
+tisr = zeros(month(2)-month(1)+1,38);
 for i = 1:38
-    for j = 4:7
-        tisr(j-3,i) = data(j);
+    for j = month
+        tisr(j-(month(1)-1),i) = data(j);
     end
 end
 tisr = tisr(:);
@@ -116,18 +116,20 @@ t = plot(x, dft_dal, '.');
 s = plot(x, dfs_dal, '.');
 hold off
 ylabel('\partial F / \partial\alpha (W/m^2)','FontSize',24);xlabel('fal (%)','FontSize',24);
-title('Change of net SFC flux w.r.t. albedo, Apr-Jul','FontSize',24);
+title(strcat("Change of net SFC flux w.r.t. albedo, ",m(month(1)),'-',m(month(2))),'FontSize',24);
 legend([t,s],{'TOA','SFC'},'FontSize',20,'Location','southeast')
 set(gca,'FontSize',20)
 set(gcf, 'Position', [10, 10, 650, 400]);
-saveas(gcf,strcat(figure_path, "diff_amjj.png"));
+% saveas(gcf,strcat(figure_path, "diff_amjj.png"));
 %%
 data = ncread([gen_path,'data_1_m/Test2007_2016/dfal_1_m10.nc'],'d_fal');
 x = squeeze(data(idx_lon_nn, idx_lat_nn, 4:7,:));
 da = x(:);
 
-dft = dft_dal((4*28)+1:end).* da;
-dfs = dfs_dal((4*28)+1:end).* da;
+% dft = dft_dal((4*28)+1:end).* da;
+% dfs = dfs_dal((4*28)+1:end).* da;
+dft = dft_dal((4*28)+1:end);
+dfs = dfs_dal((4*28)+1:end);
 
 fit_x = linspace(max(da), min(da), 1000);
 fit_dft = polyval(polyfit(da, dft, 2),fit_x);
@@ -145,4 +147,4 @@ title('Theoretical \Deltaflux due to albedo, Apr-Jul','FontSize',24);
 legend([s,t],{'SFC','TOA'},'FontSize',20)
 set(gca,'FontSize',20)
 % set(gcf, 'Position', [10, 10, 650, 400]);
-saveas(gcf,strcat(figure_path, "the_fal_feedback_anomaly_amjj.png"));
+% saveas(gcf,strcat(figure_path, "the_fal_feedback_anomaly_amjj.png"));
