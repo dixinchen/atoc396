@@ -76,75 +76,75 @@ drc_k = squeeze(data(2,1,:,idx_lat2_k:idx_lat1_k, month, :));
 svar_drc_k = nanvar(drc_k,0,3);
 
 
-% filename = [my_path,'var_dra_drc_globle_nn.nc'];
-% if exist(filename,'file')
-%     delete(filename);
-% end
-% %save dim
-% struct_tmp = struct('name','longitude','type','dim','nc_type','NC_FLOAT');
-% % netcdf_write(filename,lon_tmp_nn,struct_tmp);
-% netcdf_write(filename,lon_nn,struct_tmp);
-% struct_tmp = struct('name','latitude','type','dim','nc_type','NC_FLOAT');
-% netcdf_write(filename,lat_nn,struct_tmp);
-% %save data
-% struct_tmp = struct('name','var_toa_dra','type','var','nc_type','NC_FLOAT','var_name',[]);
-% struct_tmp.dim = {'longitude';'latitude'};
-% struct_tmp.att = struct('short_name','Variance TOA NN dRa',...
-%     'units','(W/m^2)^2','missing_values',-9999);
-% [status1] = netcdf_write(filename,var_dra_nn,struct_tmp);
-% 
-% struct_tmp = struct('name','var_toa_drc','type','var','nc_type','NC_FLOAT','var_name',[]);
-% struct_tmp.dim = {'longitude';'latitude'};
-% struct_tmp.att = struct('short_name','Variance TOA NN dRc',...
-%     'units','(W/m^2)^2','missing_values',-9999);
-% [status2] = netcdf_write(filename,var_drc_nn,struct_tmp);
-% 
-% struct_tmp = struct('name','var_sfc_dra','type','var','nc_type','NC_FLOAT','var_name',[]);
-% struct_tmp.dim = {'longitude';'latitude'};
-% struct_tmp.att = struct('short_name','Variance TOA NN dRa',...
-%     'units','(W/m^2)^2','missing_values',-9999);
-% [status3] = netcdf_write(filename,svar_dra_nn,struct_tmp);
-% 
-% struct_tmp = struct('name','var_sfc_drc','type','var','nc_type','NC_FLOAT','var_name',[]);
-% struct_tmp.dim = {'longitude';'latitude'};
-% struct_tmp.att = struct('short_name','Variance TOA NN dRc',...
-%     'units','(W/m^2)^2','missing_values',-9999);
-% [status4] = netcdf_write(filename,svar_drc_nn,struct_tmp);
-% 
-% 
-% 
-% filename = [my_path,'var_dra_drc_globle_kernel.nc'];
-% if exist(filename,'file')
-%     delete(filename);
-% end
-% %save dim
-% struct_tmp = struct('name','longitude','type','dim','nc_type','NC_FLOAT');
-% netcdf_write(filename,lon_k,struct_tmp);
-% struct_tmp = struct('name','latitude','type','dim','nc_type','NC_FLOAT');
-% netcdf_write(filename,lat_k,struct_tmp);
-% %save data
-% struct_tmp = struct('name','var_toa_dra','type','var','nc_type','NC_FLOAT','var_name',[]);
-% struct_tmp.dim = {'longitude';'latitude'};
-% struct_tmp.att = struct('short_name','Variance TOA kernel dRa',...
-%     'units','(W/m^2)^2','missing_values',-9999);
-% [status1] = netcdf_write(filename,var_dra_k,struct_tmp);
-% 
-% struct_tmp = struct('name','var_toa_drc','type','var','nc_type','NC_FLOAT','var_name',[]);
-% struct_tmp.dim = {'longitude';'latitude'};
-% struct_tmp.att = struct('short_name','Variance TOA kernel dRc',...
-%     'units','(W/m^2)^2','missing_values',-9999);
-% [status2] = netcdf_write(filename,var_drc_k,struct_tmp);
-% 
-% struct_tmp = struct('name','var_sfc_dra','type','var','nc_type','NC_FLOAT','var_name',[]);
-% struct_tmp.dim = {'longitude';'latitude'};
-% struct_tmp.att = struct('short_name','Variance TOA kernel dRa',...
-%     'units','(W/m^2)^2','missing_values',-9999);
-% [status3] = netcdf_write(filename,svar_dra_k,struct_tmp);
-% 
-% struct_tmp = struct('name','var_sfc_drc','type','var','nc_type','NC_FLOAT','var_name',[]);
-% struct_tmp.dim = {'longitude';'latitude'};
-% struct_tmp.att = struct('short_name','Variance TOA kernel dRc',...
-%     'units','(W/m^2)^2','missing_values',-9999);
-% [status4] = netcdf_write(filename,svar_drc_k,struct_tmp);
-% 
-% toc;
+filename = [my_path,'var_dra_drc_globle_nn.nc'];
+if exist(filename,'file')
+    delete(filename);
+end
+%save dim
+struct_tmp = struct('name','longitude','type','dim','nc_type','NC_FLOAT');
+% netcdf_write(filename,lon_tmp_nn,struct_tmp);
+netcdf_write(filename,lon_nn,struct_tmp);
+struct_tmp = struct('name','latitude','type','dim','nc_type','NC_FLOAT');
+netcdf_write(filename,lat_nn,struct_tmp);
+%save data
+struct_tmp = struct('name','var_toa_dra','type','var','nc_type','NC_FLOAT','var_name',[]);
+struct_tmp.dim = {'longitude';'latitude'};
+struct_tmp.att = struct('short_name','Variance TOA NN dRa',...
+    'units','(W/m^2)^2','missing_values',-9999);
+[status1] = netcdf_write(filename,var_dra_nn,struct_tmp);
+
+struct_tmp = struct('name','var_toa_drc','type','var','nc_type','NC_FLOAT','var_name',[]);
+struct_tmp.dim = {'longitude';'latitude'};
+struct_tmp.att = struct('short_name','Variance TOA NN dRc',...
+    'units','(W/m^2)^2','missing_values',-9999);
+[status2] = netcdf_write(filename,var_drc_nn,struct_tmp);
+
+struct_tmp = struct('name','var_sfc_dra','type','var','nc_type','NC_FLOAT','var_name',[]);
+struct_tmp.dim = {'longitude';'latitude'};
+struct_tmp.att = struct('short_name','Variance TOA NN dRa',...
+    'units','(W/m^2)^2','missing_values',-9999);
+[status3] = netcdf_write(filename,svar_dra_nn,struct_tmp);
+
+struct_tmp = struct('name','var_sfc_drc','type','var','nc_type','NC_FLOAT','var_name',[]);
+struct_tmp.dim = {'longitude';'latitude'};
+struct_tmp.att = struct('short_name','Variance TOA NN dRc',...
+    'units','(W/m^2)^2','missing_values',-9999);
+[status4] = netcdf_write(filename,svar_drc_nn,struct_tmp);
+
+
+
+filename = [my_path,'var_dra_drc_globle_kernel.nc'];
+if exist(filename,'file')
+    delete(filename);
+end
+%save dim
+struct_tmp = struct('name','longitude','type','dim','nc_type','NC_FLOAT');
+netcdf_write(filename,lon_k,struct_tmp);
+struct_tmp = struct('name','latitude','type','dim','nc_type','NC_FLOAT');
+netcdf_write(filename,lat_k,struct_tmp);
+%save data
+struct_tmp = struct('name','var_toa_dra','type','var','nc_type','NC_FLOAT','var_name',[]);
+struct_tmp.dim = {'longitude';'latitude'};
+struct_tmp.att = struct('short_name','Variance TOA kernel dRa',...
+    'units','(W/m^2)^2','missing_values',-9999);
+[status1] = netcdf_write(filename,var_dra_k,struct_tmp);
+
+struct_tmp = struct('name','var_toa_drc','type','var','nc_type','NC_FLOAT','var_name',[]);
+struct_tmp.dim = {'longitude';'latitude'};
+struct_tmp.att = struct('short_name','Variance TOA kernel dRc',...
+    'units','(W/m^2)^2','missing_values',-9999);
+[status2] = netcdf_write(filename,var_drc_k,struct_tmp);
+
+struct_tmp = struct('name','var_sfc_dra','type','var','nc_type','NC_FLOAT','var_name',[]);
+struct_tmp.dim = {'longitude';'latitude'};
+struct_tmp.att = struct('short_name','Variance TOA kernel dRa',...
+    'units','(W/m^2)^2','missing_values',-9999);
+[status3] = netcdf_write(filename,svar_dra_k,struct_tmp);
+
+struct_tmp = struct('name','var_sfc_drc','type','var','nc_type','NC_FLOAT','var_name',[]);
+struct_tmp.dim = {'longitude';'latitude'};
+struct_tmp.att = struct('short_name','Variance TOA kernel dRc',...
+    'units','(W/m^2)^2','missing_values',-9999);
+[status4] = netcdf_write(filename,svar_drc_k,struct_tmp);
+
+toc;
