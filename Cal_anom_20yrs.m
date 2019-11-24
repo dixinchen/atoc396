@@ -62,7 +62,7 @@ for i = 1:nvar
     netcdf_write(filename,year,struct_tmp);
     %
     ssrc_mean = ncread([result_path, vars{i},'_mean_20.nc'],[vars{i},'_mean']);
-   X = ncread([data_path,upper(vars{i}),'_1_m38.nc'],vars{i});
+    X = ncread([data_path,upper(vars{i}),'_1_m38.nc'],vars{i});
            
     X = X(:,:,12*18+1:end);
 

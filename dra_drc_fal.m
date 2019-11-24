@@ -10,7 +10,7 @@ m = ["Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sept" "Oct" "Nov" "Dec"];
 trend = "deseasonal";
 % trend = "interannual";
 var = "fal";
-month = 6;
+month = 4;
 num = 10;
 lon = 75; lat = 75;
 % lon = 75; lat = 70;

@@ -20,15 +20,12 @@ begin
   sc_k = b->var_sfc_drc(:,:)
   sw_k = b->var_sfc_drw(:,:)
 
-    printVarSummary(tw_k)
-    printVarSummary(tw_nn)
 ; get total
   t_total_nn = ta_nn+tc_nn+tw_nn
   s_total_nn = sa_nn+sc_nn+sw_nn
   t_total_k = ta_k+tc_k+tw_k
   s_total_k = sa_k+sc_k+sw_k
 
-  print(tw_nn(:,4))
 ; set coordinates for total data
   t_total_nn!0         = "lat"
   t_total_nn&lat       = a->latitude(:)
@@ -146,51 +143,42 @@ begin
   sw_k&lat@units="degree_north"
   sw_k&lon@units="degree_east"
 
-; ready to plot
-wks = gsn_open_wks("png","panel")
-cmap = read_colormap_file("gui_default")
-plot = new(4,graphic)                          ; create a plot array
 
-res                     = True
-res@gsnDraw             = False           ; don't draw
-res@gsnFrame            = False           ; don't advance frame
-res@cnInfoLabelOn       = False           ; turn off cn info label
-res@cnFillOn            = True            ; turn on color
-res@cnFillPalette       = cmap(0:18,:)
-res@lbLabelBarOn        = False
-res@gsnPolar            = "NH"                   ;select norther hemisphere
-res@mpMaxLatF           = 90          ; choose subregion
-res@mpMinLatF           = 70
-res@cnLinesOn           = False              ; turn off contour lines
-res@mpFillOn            = False   ; turn off individual cb's1002cdx
+  ;==============================================
+  ; create plot
+  ;=============================================
+   wks  = gsn_open_wks ("png", "aaaaa" )              ; send graphics to PNG file
+   plot = new (6, graphic)
+   gsn_define_colormap(wks, "WhViBlGrYeOrReWh")   ; choose colormap
 
-res@gsnTickMarksOn      = False           ;turn off all tick marks
-res@mpGridAndLimbOn     = False              ; turn off lat/lon lines
-res@mpPerimOn           = False
-res@txFontHeightF     = 0.07
-res@cnLevelSelectionMode =  "ManualLevels"
-res@cnMinLevelValF       = 0.
-res@cnMaxLevelValF       = 50.
-res@cnLevelSpacingF      = 10.
+   res                      = True                ; plot mods desired
+   ; res@tiMainString         = "Variance of dRa at TOA (NN)" ; plot title
+   res@cnFillOn             = True               ; turns on the color
+   res@cnFillPalette        = "BlAqGrYeOrRe"             ; set color map
+   res@cnLinesOn            = False              ; turn off contour lines
+   res@mpFillOn             = False            ; turn off gray filled land
+   res@lbLabelBarOn        = False            ; turn off individual label bars
+   res@gsnPolar             = "NH"               ; specify the hemisphere
+   res@mpMinLatF            = 30
+   res@cnLevelSelectionMode =  "ManualLevels"
+   res@cnMinLevelValF       = 0.
+   res@cnMaxLevelValF       = 700.
+   res@cnLevelSpacingF      = 10.
 
-; res@gsnCenterString        = "Variance of dRa at TOA (NN)"
-; plot(0)=gsn_csm_contour_map_polar(wks,ta_k(:,:),res)
-; res@gsnCenterString        = "Variance of dRc at TOA (NN)"
-; plot(1)=gsn_csm_contour_map_polar(wks,tc_k(:,:),res)
+   plot(0) = gsn_csm_contour_map_polar(wks, ta_nn, res)
+   plot(2) = gsn_csm_contour_map_polar(wks, tc_nn, res)
+   ; plot(4) = gsn_csm_contour_map_polar(wks, tw_nn, res)
+   plot(4) = gsn_csm_contour_map_polar(wks, t_total_nn, res)
+   plot(1) = gsn_csm_contour_map_polar(wks, ta_k, res)
+   plot(3) = gsn_csm_contour_map_polar(wks, tc_k, res)
+   ; plot(5) = gsn_csm_contour_map_polar(wks, tw_k, res)
+   plot(5) = gsn_csm_contour_map_polar(wks, t_total_k, res)
 
-
-plot(0)=gsn_csm_contour_map_polar(wks,tw_nn(:,:),res)
-plot(1)=gsn_csm_contour_map_polar(wks,tw_k(:,:),res)
-plot(2)=gsn_csm_contour_map_polar(wks,sw_nn(:,:),res)
-plot(3)=gsn_csm_contour_map_polar(wks,sw_k(:,:),res)
-;************************************************
-; create panel
-;************************************************
-resP                     = True                ; modify the panel plot
-; resP@gsnPanelMainString = "A plot with a common label bar"
-
-resP@gsnPanelLabelBar    = True                ; add common colorbar
-resP@lbLabelFontHeightF  = 0.03              ; make labels smaller
-
-gsn_panel(wks,plot,(/4,1/),resP)               ; now draw as one plot
-end
+  ;==============================================
+  ; create panel
+  ;=============================================
+   pres                 = True
+   pres@gsnPanelRowSpec = True                   ; tell panel what order to plot
+   pres@gsnPanelLabelBar    = True       ; common label bar
+   gsn_panel(wks,plot,(/2,2,2/),pres)
+  end

@@ -4,13 +4,13 @@ gen_path = '/Users/dchen/OneDrive - McGill University/myCourses/atoc_396/';
 result_path = '/Users/dchen/OneDrive - McGill University/myCourses/atoc_396/sept/report2/output_ztt/';
 result_path20 = '/Users/dchen/OneDrive - McGill University/myCourses/atoc_396/sept/report5/output/';
 figure_path = '/Users/dchen/OneDrive - McGill University/myCourses/atoc_396/nov/nov-12/';
-my_path = '/Users/dchen/OneDrive - McGill University/myCourses/atoc_396/nov/nov-26/';
+my_path = '/Users/dchen/OneDrive - McGill University/myCourses/atoc_396/nov/nov-20/';
 
 var = "fal";
-month = 5;
+month = 6;
 num = 10;
 
-lat1 = 40;
+lat1 = 70;
 lat2 = 90;
 
 % coord index for 2.5*2.5 resolution
@@ -104,7 +104,7 @@ toc;
 %%
 
 %save NN data
-filename = [my_path,'var_arctic_may_nn_nov23.nc'];
+filename = [my_path,'var_arctic_june_nn_nov22.nc'];
 if exist(filename,'file')
     delete(filename);
 end
@@ -177,7 +177,7 @@ struct_tmp.att = struct('short_name','Variance SFC NN dRw',...
 
 %%
 % save kernel data
-filename = [my_path,'var_arctic_may_kernel_nov23.nc'];
+filename = [my_path,'var_arctic_june_kernel_nov22.nc'];
 if exist(filename,'file')
     delete(filename);
 end
