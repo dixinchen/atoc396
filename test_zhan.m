@@ -33,12 +33,14 @@ idx_lat2_ebaf = find(lat_ebaf==la2);
 
 lon_tmp_nn = lon_nn(:);
 lat_tmp_nn = lat_nn(idx_lat2_nn:idx_lat1_nn);
+
+
 %% albedo anomaly (Delta alpha)
 data = ncread([gen_path,'data_1_m/anomaly/dfal_1_m38.nc'],'d_fal');
 dfal = data(:,idx_lat2_nn:idx_lat1_nn,4:9,2000-1979+1:2015-1979+1);
 
 %% albedo monthly mean (alpha)
-fal = NaN(360,21,6,16);
+fal = NaN(360,idx_lat1_nn-idx_lat2_nn+1,6,16);
 for month = 4:9
     data = ncread([gen_path,'data_1_m/GFAL_1_m38.nc'],'fal');
     fal(:,:,month-3,:) = data(:,idx_lat2_nn:idx_lat1_nn,(2000-1979)*12+month:12:(2015-1979)*12+month);
@@ -48,10 +50,11 @@ data = ncread([gen_path,'data_1_m/anomaly/dtsr_1_m38.nc'],'d_tsr');
 datac = ncread([gen_path,'data_1_m/anomaly/dtsrc_1_m38.nc'],'d_tsrc');
 dasr_atm = data(:,idx_lat2_nn:idx_lat1_nn,4:9,2000-1979+1:2015-1979+1)-datac(:,idx_lat2_nn:idx_lat1_nn,4:9,2000-1979+1:2015-1979+1);
 
+
 %% SW downward radiation monthly mean (SWD_SFC)
 % EBAF data
 data = ncread([my_path,'swd_sfc.nc'],'sfc_sw_down_all_mon');
-swd = NaN(360,21,6,16);
+swd = NaN(360,idx_lat1_nn-idx_lat2_nn+1,6,16);
 for i=1:16
     for j=4:9
         swd(:,:,j-3,i) = squeeze(data(:, idx_lat2_ebaf:-1:idx_lat1_ebaf, 12*(i-1)+(j-2)));
@@ -60,13 +63,13 @@ end
 
 % swd_sfc clim. mean
 data = ncread([my_path,'swf_sfc_clim.nc'],'sfc_sw_down_all_clim');
-swd_clim = NaN(360,21,6);
+swd_clim = NaN(360,idx_lat1_nn-idx_lat2_nn+1,6);
 for j = 4:9
-    swd_clim(:,:,j-3) = data(:,idx_lat2_ebaf:-1:idx_lat1_ebaf, j);
+    swd_clim(:,:,j-3) = data(:, idx_lat2_ebaf:-1:idx_lat1_ebaf, j);
 end
 
 % calculate swd_sfc anomaly dswd
-dswd = NaN(360,21,6,16);
+dswd = NaN(360,idx_lat1_nn-idx_lat2_nn+1,6,16);
 for i = 1:16
     for j = 1:6
         dswd(:,:,j,i)=swd(:,:,j,i)-swd_clim(:,:,j);

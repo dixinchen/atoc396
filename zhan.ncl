@@ -2,7 +2,7 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 
 begin
-  a = addfile("/Users/dchen/OneDrive - McGill University/myCourses/atoc_396/nov/nov-20/var_arctic_zhan.nc","r")
+  a = addfile("/Users/dchen/OneDrive - McGill University/myCourses/atoc_396/report/var_zhan.nc","r")
 
 
   atm= a->var_atm(:,:)
@@ -32,8 +32,8 @@ begin
   total&lon@units="degree_east"
 
 
-  wks  = gsn_open_wks ("png", "zhan" )              ; send graphics to PNG file
-  plot = new (6, graphic)
+  wks  = gsn_open_wks ("png", "zhan_var" )              ; send graphics to PNG file
+  plot = new (3, graphic)
   gsn_define_colormap(wks, "WhViBlGrYeOrReWh")   ; choose colormap
 
   res                      = True                ; plot mods desired
@@ -43,12 +43,20 @@ begin
   res@cnLinesOn            = False              ; turn off contour lines
   res@mpFillOn             = False            ; turn off gray filled land
   res@lbLabelBarOn        = False            ; turn off individual label bars
-  res@gsnPolar             = "NH"               ; specify the hemisphere
-  res@mpMinLatF            = 70
+  res@gsnPolar             = "NH"
+  res@mpMaxLatF                   = 90          ; choose subregion
+  res@mpMinLatF                   = 50
   res@cnLevelSelectionMode =  "ManualLevels"
   res@cnMinLevelValF       = 0.
-  res@cnMaxLevelValF       = 200.
-  res@cnLevelSpacingF      = 10.
+  res@cnMaxLevelValF       = 800.
+  res@cnLevelSpacingF      = 100.
+  res@gsnDraw      = False
+  res@gsnFrame     = False
+  res@gsnTickMarksOn = False           ;turn off all tick marks
+  res@gsnPolar     = "NH"                   ;select norther hemisphere
+  res@mpGridAndLimbOn   = False
+  res@txFontHeightF     = 0.07
+
 
   plot(0) = gsn_csm_contour_map_polar(wks, atm, res)
   plot(1) = gsn_csm_contour_map_polar(wks, sfc, res)
@@ -57,6 +65,6 @@ begin
   pres                 = True
   pres@gsnPanelRowSpec = True                   ; tell panel what order to plot
   pres@gsnPanelLabelBar    = True       ; common label bar
-  gsn_panel(wks,plot,(/2,2,2/),pres)
+  gsn_panel(wks,plot,(/3/),pres)
 
 end
